@@ -6,7 +6,7 @@
 #    By: eguelin <eguelin@student.42lyon.fr>        +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2023/12/02 15:53:52 by eguelin           #+#    #+#              #
-#    Updated: 2023/12/06 17:05:09 by eguelin          ###   ########lyon.fr    #
+#    Updated: 2023/12/06 17:47:28 by eguelin          ###   ########lyon.fr    #
 #                                                                              #
 # **************************************************************************** #
 
@@ -17,7 +17,7 @@
 #                                   Variable                                   #
 # **************************************************************************** #
 
-NAME	= Converter
+NAME	= convert
 OBJ_DIR	= .obj/
 CLS_DIR = class/
 SRC_DIR	= src/
