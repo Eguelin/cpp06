@@ -6,7 +6,7 @@
 /*   By: eguelin <eguelin@student.42lyon.fr>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/12/04 18:29:58 by eguelin           #+#    #+#             */
-/*   Updated: 2023/12/06 17:07:27 by eguelin          ###   ########lyon.fr   */
+/*   Updated: 2023/12/07 14:31:21 by eguelin          ###   ########lyon.fr   */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,7 +26,7 @@ class  ScalarConverter
 {
 	public:
 
-			static int	convert( std::string str );
+		static int	convert( std::string str );
 
 	private:
 
