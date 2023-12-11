@@ -6,7 +6,7 @@
 /*   By: eguelin <eguelin@student.42lyon.fr>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/12/04 18:29:58 by eguelin           #+#    #+#             */
-/*   Updated: 2023/12/07 14:36:01 by eguelin          ###   ########lyon.fr   */
+/*   Updated: 2023/12/11 13:33:37 by eguelin          ###   ########lyon.fr   */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -38,7 +38,7 @@ int	ScalarConverter::convert( std::string str )
 
 	d = strtod(str.c_str(), &ptr);
 
-	if ((str.size() == 1 && std::isdigit(str[0])) || (*ptr != 'f' && *ptr != '\0') || *(ptr + 1) != '\0')
+	if ((str.size() == 1 && std::isdigit(str[0])) || (*ptr != 'f' && *ptr != '\0') || (*ptr == 'f' && (*(ptr + 1) != '\0' || str.find('.') == std::string::npos)))
 	{
 		std::cerr << "Error: Invalid argument" << std::endl;
 
