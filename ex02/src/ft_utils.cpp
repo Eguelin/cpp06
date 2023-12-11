@@ -6,7 +6,7 @@
 /*   By: eguelin <eguelin@student.42lyon.fr>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/12/07 15:32:04 by eguelin           #+#    #+#             */
-/*   Updated: 2023/12/07 16:16:42 by eguelin          ###   ########lyon.fr   */
+/*   Updated: 2023/12/10 15:09:06 by eguelin          ###   ########lyon.fr   */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,7 +23,7 @@ static Base	*generateC( void );
 Base	*generate( void )
 {
 	Base	*(*generate[3])(void) = {generateA, generateB, generateC};
-	timeval currentTime;
+	timeval	currentTime;
 
 	gettimeofday(&currentTime, NULL);
 	std::srand(static_cast<unsigned int>(currentTime.tv_usec));
