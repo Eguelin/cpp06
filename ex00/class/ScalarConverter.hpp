@@ -6,7 +6,7 @@
 /*   By: eguelin <eguelin@student.42lyon.fr>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/12/04 18:29:58 by eguelin           #+#    #+#             */
-/*   Updated: 2023/12/07 14:31:21 by eguelin          ###   ########lyon.fr   */
+/*   Updated: 2023/12/13 18:33:51 by eguelin          ###   ########lyon.fr   */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,12 +15,11 @@
 
 # include <iostream>
 # include <cstdlib>
-# include <climits>
 # include <limits>
 # include <sstream>
 
-# define MAX_NB_PRINTABLE 1000000
-# define MIN_NB_PRINTABLE -1000000
+# define MAX_FLOAT_PRINTABLE 1000000
+# define MIN_FLOAT_PRINTABLE -1000000
 
 class  ScalarConverter
 {
