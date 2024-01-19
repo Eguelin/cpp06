@@ -6,7 +6,7 @@
 /*   By: eguelin <eguelin@student.42lyon.fr>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/12/02 15:48:04 by eguelin           #+#    #+#             */
-/*   Updated: 2023/12/07 14:28:38 by eguelin          ###   ########lyon.fr   */
+/*   Updated: 2024/01/16 15:25:51 by eguelin          ###   ########lyon.fr   */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,7 +15,9 @@
 int main( void )
 {
 	uintptr_t	raw;
-	Data		*dataPtr = new Data("Hello word");
+	Data		*dataPtr = new Data;
+
+	dataPtr->str = "Hello World!";
 
 	std::cout << "dataPtr: " << dataPtr << std::endl;
 
@@ -27,7 +29,7 @@ int main( void )
 	dataPtr = Serializer::deserialize( raw );
 
 	std::cout << "dataPtr: " << dataPtr << std::endl;
-	std::cout << "dataPtr->getBase(): " << dataPtr->getBase() << std::endl;
+	std::cout << "dataPtr->str: " << dataPtr->str << std::endl;
 
 	delete dataPtr;
 

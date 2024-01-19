@@ -6,7 +6,7 @@
 #    By: eguelin <eguelin@student.42lyon.fr>        +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2023/12/02 15:53:52 by eguelin           #+#    #+#              #
-#    Updated: 2023/12/07 14:15:32 by eguelin          ###   ########lyon.fr    #
+#    Updated: 2024/01/19 15:30:17 by eguelin          ###   ########lyon.fr    #
 #                                                                              #
 # **************************************************************************** #
 
@@ -20,10 +20,11 @@
 NAME	= serialize
 OBJ_DIR	= .obj/
 CLS_DIR = class/
+INC_DIR	= include/
 SRC_DIR	= src/
 CC		= c++
 CFLAGS	= -Wall -Werror -Wextra -std=c++98
-INC		= -I $(CLS_DIR)
+INC		= -I $(INC_DIR) -I $(CLS_DIR)
 RM		= rm -fr
 
 # **************************************************************************** #
@@ -52,8 +53,7 @@ FULL_CLEAN_MSG	= "$(PURPLE)Full cleaning $(NAME) $(DEFAULT)done on $(YELLOW)$(sh
 #                                    Sources                                   #
 # **************************************************************************** #
 
-CLS_FILES	= Serializer.cpp \
-			  Data.cpp
+CLS_FILES	= Serializer.cpp
 
 ALL_FILES	= $(addprefix $(CLS_DIR), $(CLS_FILES))
 
@@ -65,6 +65,8 @@ OBJ_FILES	= $(addprefix $(OBJ_DIR), $(ALL_FILES:.cpp=.o))
 
 DEP_FILES	= $(OBJ_FILES:.o=.d)
 
+ALL_OBJ_DIR	= $(sort $(dir $(OBJ_FILES)))
+
 # **************************************************************************** #
 #                                     Rules                                    #
 # **************************************************************************** #
@@ -75,7 +77,7 @@ $(NAME): $(OBJ_FILES)
 	$(CC) $(CFLAGS) $(INC) $(OBJ_FILES) -o $(NAME)
 	echo $(COMP_MSG)
 
-$(OBJ_DIR)%.o: %.cpp | $(OBJ_DIR)
+$(OBJ_DIR)%.o: %.cpp | $(ALL_OBJ_DIR)
 	$(CC) $(CFLAGS) $(INC) -MMD -c $< -o $@
 
 clean:
@@ -88,7 +90,7 @@ fclean: clean
 
 re: fclean all
 
-$(OBJ_DIR):
-	mkdir -p $(OBJ_DIR)$(SRC_DIR) $(OBJ_DIR)$(CLS_DIR)
+$(ALL_OBJ_DIR):
+	mkdir -p $@
 
 -include $(DEP_FILES)

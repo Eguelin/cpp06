@@ -6,7 +6,7 @@
 #    By: eguelin <eguelin@student.42lyon.fr>        +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2023/12/02 15:53:52 by eguelin           #+#    #+#              #
-#    Updated: 2023/12/07 15:36:54 by eguelin          ###   ########lyon.fr    #
+#    Updated: 2024/01/19 15:30:45 by eguelin          ###   ########lyon.fr    #
 #                                                                              #
 # **************************************************************************** #
 
@@ -66,6 +66,8 @@ OBJ_FILES	= $(addprefix $(OBJ_DIR), $(ALL_FILES:.cpp=.o))
 
 DEP_FILES	= $(OBJ_FILES:.o=.d)
 
+ALL_OBJ_DIR	= $(sort $(dir $(OBJ_FILES)))
+
 # **************************************************************************** #
 #                                     Rules                                    #
 # **************************************************************************** #
@@ -76,7 +78,7 @@ $(NAME): $(OBJ_FILES)
 	$(CC) $(CFLAGS) $(INC) $(OBJ_FILES) -o $(NAME)
 	echo $(COMP_MSG)
 
-$(OBJ_DIR)%.o: %.cpp | $(OBJ_DIR)
+$(OBJ_DIR)%.o: %.cpp | $(ALL_OBJ_DIR)
 	$(CC) $(CFLAGS) $(INC) -MMD -c $< -o $@
 
 clean:
@@ -89,7 +91,7 @@ fclean: clean
 
 re: fclean all
 
-$(OBJ_DIR):
-	mkdir -p $(OBJ_DIR)$(SRC_DIR) $(OBJ_DIR)$(CLS_DIR)
+$(ALL_OBJ_DIR):
+	mkdir -p $@
 
 -include $(DEP_FILES)
