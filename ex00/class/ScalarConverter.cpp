@@ -6,17 +6,14 @@
 /*   By: eguelin <eguelin@student.42lyon.fr>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/12/04 18:29:58 by eguelin           #+#    #+#             */
-/*   Updated: 2023/12/13 18:34:02 by eguelin          ###   ########lyon.fr   */
+/*   Updated: 2024/02/07 19:24:56 by eguelin          ###   ########lyon.fr   */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "ScalarConverter.hpp"
+#include <cmath>
 
 static void	trim( std::string &str );
-static void	printChar( double d , bool isNan);
-static void	printInt( double d, bool isNan);
-static void	printFloat( double d );
-static void	printDouble( double d );
 
 /* ************************************************************************** */
 /*                       Static public member function                        */
@@ -27,29 +24,44 @@ int	ScalarConverter::convert( std::string str )
 	double	d;
 	char	*ptr;
 
-	trim(str);
+	if (str.size() > 1)
+		trim(str);
 
 	if (str.empty())
 	{
-		std::cerr << "Error: Empty string" << std::endl;
+		std::cout << "Error: Invalid argument" << std::endl;
 
 		return (1);
 	}
 
-	d = strtod(str.c_str(), &ptr);
-
-	if ((str.size() == 1 && !std::isdigit(str[0])) || (*ptr != 'f' && *ptr != '\0') ||
-		(*ptr == 'f' && (*(ptr + 1) != '\0' || str.find('.') == std::string::npos || str.size() == 2)))
+	if (str.size() == 1 && !std::isdigit(str[0]))
+		_convertChar(str);
+	else
 	{
-		std::cerr << "Error: Invalid argument" << std::endl;
+		d = std::strtod(str.c_str(), &ptr);
 
-		return (1);
+		if ((*ptr != 'f' && *ptr != '\0') || (*ptr == 'f' && ptr[1] != '\0'))
+		{
+			std::cout << "Error: Invalid argument" << std::endl;
+
+			return (1);
+		}
+
+		if (str.find('f') != std::string::npos)
+			ScalarConverter::_convertFloat(str);
+		else if (str.find('.') == std::string::npos && \
+				str.find('e') == std::string::npos && \
+				d < std::numeric_limits<int>::max() && \
+				d > std::numeric_limits<int>::min())
+			ScalarConverter::_convertInt(str);
+		else
+			ScalarConverter::_convertDouble(str);
 	}
 
-	printChar(d, str == "nan" || str == "nanf");
-	printInt(d, str == "nan" || str == "nanf");
-	printFloat(d);
-	printDouble(d);
+	ScalarConverter::_printChar();
+	ScalarConverter::_printInt();
+	ScalarConverter::_printFloat();
+	ScalarConverter::_printDouble();
 
 	return (0);
 }
@@ -83,78 +95,125 @@ ScalarConverter	&ScalarConverter::operator=( const ScalarConverter &scalarConver
 }
 
 /* ************************************************************************** */
-/*                              Static function                               */
+/*                            Private member function                         */
 /* ************************************************************************** */
 
-static void	trim( std::string &str )
+void	ScalarConverter::_convertChar( const std::string &str )
 {
-	std::string::iterator	it = str.begin();
-
-	if (str.empty())
-		return ;
-
-	while (it != str.end() && std::isspace(*it))
-		it++;
-	str.erase(str.begin(), it);
-
-	if (str.empty())
-		return ;
-
-	it = str.end();
-	while (it != str.begin() && std::isspace(*(it - 1)))
-		it--;
-	str.erase(it, str.end());
+	ScalarConverter::_char = str[0];
+	ScalarConverter::_int = static_cast<int>(ScalarConverter::_char);
+	ScalarConverter::_float = static_cast<float>(ScalarConverter::_char);
+	ScalarConverter::_double = static_cast<double>(ScalarConverter::_char);
 }
 
-static void	printChar( double d, bool isNan )
+void	ScalarConverter::_convertInt( const std::string &str )
 {
-	char	c;
+	ScalarConverter::_int = std::atoi(str.c_str());
+	ScalarConverter::_char = static_cast<char>(ScalarConverter::_int);
+	ScalarConverter::_float = static_cast<float>(ScalarConverter::_int);
+	ScalarConverter::_double = static_cast<double>(ScalarConverter::_int);
+}
 
+void	ScalarConverter::_convertFloat( const std::string &str )
+{
+	ScalarConverter::_float = std::strtof(str.c_str(), NULL);
+	ScalarConverter::_char = static_cast<char>(ScalarConverter::_float);
+	ScalarConverter::_int = static_cast<int>(ScalarConverter::_float);
+	ScalarConverter::_double = static_cast<double>(ScalarConverter::_float);
+}
+
+void	ScalarConverter::_convertDouble( const std::string &str )
+{
+	ScalarConverter::_double = std::strtod(str.c_str(), NULL);
+	ScalarConverter::_char = static_cast<char>(ScalarConverter::_double);
+	ScalarConverter::_int = static_cast<int>(ScalarConverter::_double);
+	ScalarConverter::_float = static_cast<float>(ScalarConverter::_double);
+}
+
+void	ScalarConverter::_printChar( void )
+{
 	std::cout << "char: ";
-	if (isNan || d < std::numeric_limits<char>::min() || d > std::numeric_limits<char>::max())
+	if (std::isnan(ScalarConverter::_double) || \
+		ScalarConverter::_double < std::numeric_limits<char>::min() || \
+		ScalarConverter::_double > std::numeric_limits<char>::max())
 	{
 		std::cout << "impossible" << std::endl;
 
 		return ;
 	}
 
-	c = static_cast<char>(d);
-
-	if (std::isprint(c))
-		std::cout << "'" << c << "'" << std::endl;
+	if (std::isprint(ScalarConverter::_char))
+		std::cout << "'" << ScalarConverter::_char << "'" << std::endl;
 	else
 		std::cout << "Non displayable" << std::endl;
 }
 
-static void	printInt( double d, bool isNan )
+void	ScalarConverter::_printInt( void )
 {
 	std::cout << "int: ";
-	if (isNan || d < std::numeric_limits<int>::min() || d > std::numeric_limits<int>::max())
+	if (std::isnan(ScalarConverter::_double) || \
+		ScalarConverter::_double < std::numeric_limits<int>::min() || \
+		ScalarConverter::_double > std::numeric_limits<int>::max())
 	{
 		std::cout << "impossible" << std::endl;
 
 		return ;
 	}
 
-	std::cout << static_cast<int>(d) << std::endl;
+	std::cout << ScalarConverter::_int << std::endl;
 }
 
-static void	printFloat( double d )
+void	ScalarConverter::_printFloat( void )
 {
-	float	f = static_cast<float>(d);
-
 	std::cout << "float: ";
-	if (f < MAX_FLOAT_PRINTABLE && f > MIN_FLOAT_PRINTABLE && f == static_cast<int>(f))
-		std::cout << f << ".0f" << std::endl;
+	if (ScalarConverter::_float < MAX_FLOAT_PRINTABLE && \
+	ScalarConverter::_float > MIN_FLOAT_PRINTABLE && \
+	ScalarConverter::_float == static_cast<int>(ScalarConverter::_float))
+		std::cout << ScalarConverter::_float << ".0f" << std::endl;
 	else
-		std::cout << f << "f" << std::endl;
+		std::cout << ScalarConverter::_float << "f" << std::endl;
 }
 
-static void	printDouble( double d )
+void	ScalarConverter::_printDouble( void )
 {
 	std::cout << "double: ";
-	if (d < MAX_FLOAT_PRINTABLE && d > MIN_FLOAT_PRINTABLE && d == static_cast<int>(d))
-		std::cout << d << ".0" << std::endl;
+	if (ScalarConverter::_double < MAX_FLOAT_PRINTABLE && \
+	ScalarConverter::_double > MIN_FLOAT_PRINTABLE && \
+	ScalarConverter::_double == static_cast<int>(ScalarConverter::_double))
+		std::cout << ScalarConverter::_double << ".0" << std::endl;
 	else
-		std::cout << d << std::endl;
+		std::cout << ScalarConverter::_double << std::endl;
 }
+
+/* ************************************************************************** */
+/*                              Static function                               */
+/* ************************************************************************** */
+
+static void trim(std::string &str)
+{
+	std::string::iterator start = str.begin();
+	std::string::iterator end = str.end() - 1;
+
+	while (start != str.end() && isspace(*start))
+		++start;
+
+	if (start == str.end())
+	{
+		str.clear();
+		return ;
+	}
+
+	while (end != start && isspace(*end))
+		--end;
+
+	str = std::string(start, end + 1);
+}
+
+/* ************************************************************************** */
+/*                       Static private member variable                       */
+/* ************************************************************************** */
+
+char	ScalarConverter::_char;
+int		ScalarConverter::_int;
+float	ScalarConverter::_float;
+double	ScalarConverter::_double;
