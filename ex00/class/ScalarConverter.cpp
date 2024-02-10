@@ -6,12 +6,11 @@
 /*   By: eguelin <eguelin@student.42lyon.fr>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/12/04 18:29:58 by eguelin           #+#    #+#             */
-/*   Updated: 2024/02/07 19:24:56 by eguelin          ###   ########lyon.fr   */
+/*   Updated: 2024/02/10 14:54:27 by eguelin          ###   ########lyon.fr   */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "ScalarConverter.hpp"
-#include <cmath>
 
 static void	trim( std::string &str );
 
@@ -165,24 +164,32 @@ void	ScalarConverter::_printInt( void )
 
 void	ScalarConverter::_printFloat( void )
 {
+	std::ostringstream sFloat;
+
 	std::cout << "float: ";
-	if (ScalarConverter::_float < MAX_FLOAT_PRINTABLE && \
-	ScalarConverter::_float > MIN_FLOAT_PRINTABLE && \
-	ScalarConverter::_float == static_cast<int>(ScalarConverter::_float))
-		std::cout << ScalarConverter::_float << ".0f" << std::endl;
+
+	sFloat << ScalarConverter::_float;
+	if (sFloat.str().find('.') == std::string::npos && \
+		sFloat.str().find('e') == std::string::npos)
+		sFloat << ".0f";
 	else
-		std::cout << ScalarConverter::_float << "f" << std::endl;
+		sFloat << "f";
+
+	std::cout << sFloat.str() << std::endl;
 }
 
 void	ScalarConverter::_printDouble( void )
 {
+	std::ostringstream sDouble;
+
 	std::cout << "double: ";
-	if (ScalarConverter::_double < MAX_FLOAT_PRINTABLE && \
-	ScalarConverter::_double > MIN_FLOAT_PRINTABLE && \
-	ScalarConverter::_double == static_cast<int>(ScalarConverter::_double))
-		std::cout << ScalarConverter::_double << ".0" << std::endl;
-	else
-		std::cout << ScalarConverter::_double << std::endl;
+
+	sDouble << ScalarConverter::_double;
+	if (sDouble.str().find('.') == std::string::npos && \
+		sDouble.str().find('e') == std::string::npos)
+		sDouble << ".0";
+
+	std::cout << sDouble.str() << std::endl;
 }
 
 /* ************************************************************************** */

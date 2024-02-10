@@ -6,7 +6,7 @@
 /*   By: eguelin <eguelin@student.42lyon.fr>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/12/04 18:29:58 by eguelin           #+#    #+#             */
-/*   Updated: 2024/02/07 19:14:26 by eguelin          ###   ########lyon.fr   */
+/*   Updated: 2024/02/10 14:50:09 by eguelin          ###   ########lyon.fr   */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,9 +18,7 @@
 # include <limits>
 # include <sstream>
 # include <string>
-
-# define MAX_FLOAT_PRINTABLE 1000000
-# define MIN_FLOAT_PRINTABLE -1000000
+# include <cmath>
 
 class  ScalarConverter
 {
