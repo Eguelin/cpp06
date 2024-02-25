@@ -6,7 +6,7 @@
 /*   By: eguelin <eguelin@student.42lyon.fr>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/12/04 18:29:58 by eguelin           #+#    #+#             */
-/*   Updated: 2024/02/10 14:54:27 by eguelin          ###   ########lyon.fr   */
+/*   Updated: 2024/02/14 17:53:45 by eguelin          ###   ########lyon.fr   */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -34,7 +34,7 @@ int	ScalarConverter::convert( std::string str )
 	}
 
 	if (str.size() == 1 && !std::isdigit(str[0]))
-		_convertChar(str);
+		ScalarConverter::_convertChar(str);
 	else
 	{
 		d = std::strtod(str.c_str(), &ptr);

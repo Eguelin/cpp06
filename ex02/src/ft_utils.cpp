@@ -6,7 +6,7 @@
 /*   By: eguelin <eguelin@student.42lyon.fr>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/12/07 15:32:04 by eguelin           #+#    #+#             */
-/*   Updated: 2024/02/10 14:31:14 by eguelin          ###   ########lyon.fr   */
+/*   Updated: 2024/02/13 17:45:56 by eguelin          ###   ########lyon.fr   */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -43,7 +43,7 @@ void	identify( Base *p )
 		std::cout << "Unknown type" << std::endl;
 }
 
-void	identify (Base &p )
+void	identify( Base &p )
 {
 	try
 	{
@@ -80,6 +80,8 @@ void	identify (Base &p )
 	catch(const std::exception& e)
 	{
 	}
+
+	std::cout << "Unknown type" << std::endl;
 }
 
 /* ************************************************************************** */
